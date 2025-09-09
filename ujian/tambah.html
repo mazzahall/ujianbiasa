@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tambah Data</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <header>
+      <h1>➕ Tambah Data Diri</h1>
+      <button onclick="window.location.href='index.html'" class="btn">
+        ⬅️ Kembali
+      </button>
+    </header>
+
+    <main class="card">
+      <form id="tambah-form">
+        <label for="nama">👤 Nama</label>
+        <input type="text" id="nama" placeholder="Masukkan Nama" required />
+
+        <label for="umur">🎂 Umur</label>
+        <input
+          type="number"
+          id="umur"
+          placeholder="Masukkan Umur"
+          min="1"
+          required
+        />
+
+        <label for="alamat">🏠 Alamat</label>
+        <input type="text" id="alamat" placeholder="Masukkan Alamat" required />
+
+        <button type="submit" class="btn btn-primary">💾 Simpan</button>
+      </form>
+    </main>
+
+    <script>
+      const form = document.getElementById("tambah-form");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const nama = document.getElementById("nama").value.trim();
+        const umur = document.getElementById("umur").value.trim();
+        const alamat = document.getElementById("alamat").value.trim();
+
+        if (!nama || !umur || !alamat) {
+          Swal.fire("Error", "Semua field wajib diisi!", "error");
+          return;
+        }
+
+        let data = JSON.parse(localStorage.getItem("dataDiri")) || [];
+
+        const newData = { nama, umur, alamat };
+        data.push(newData);
+
+        localStorage.setItem("dataDiri", JSON.stringify(data));
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil ditambahkan!",
+          confirmButtonColor: "#2575fc",
+        }).then(() => {
+          window.location.href = "index.html";
+        });
+      });
+    </script>
+  </body>
+</html>
